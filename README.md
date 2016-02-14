@@ -1,2 +1,2 @@
 # Data-Structure-
-A Repository for al the Programs I write for practicing
+A Repository for all the Programs I write for practicing
