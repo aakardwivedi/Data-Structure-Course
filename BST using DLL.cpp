@@ -1,4 +1,6 @@
 #include<iostream>
+#include<stdio.h>
+#include<stdlib.h>
 
 using namespace std;
 
@@ -68,6 +70,53 @@ void printing(node* rootPtr)
 
 }
 
+/*Function that returns the inorder successor of the node to be deleted*/
+node* minVal(node* rootPtr)
+{
+    //Leftmost element
+    while(rootPtr->left_son != NULL)
+        rootPtr = rootPtr->left_son;
+
+    return rootPtr;
+}
+
+/*Fucntion that deletes the node accessed by the data of node*/
+struct node* deleteNode(node* rootPtr,int x)
+{
+    if(rootPtr == NULL)
+        return rootPtr;
+    if(rootPtr->data < x)
+    {
+        rootPtr->right_son=deleteNode(rootPtr->right_son,x);
+    }
+    else if(rootPtr->data > x)
+    {
+        rootPtr->left_son=deleteNode(rootPtr->left_son,x);
+    }
+    else
+    {
+        if(rootPtr->left_son == NULL)
+        {
+            node* temp = rootPtr->right_son;
+            free(rootPtr);
+            return temp;
+        }
+        else if(rootPtr->right_son == NULL)
+        {
+            node* temp = rootPtr->left_son;
+            free(rootPtr);
+            return temp;
+        }
+        else{
+                //Part to delete the node with two child
+            node* temp = minVal(rootPtr->right_son);
+            rootPtr->data = temp->data;
+            rootPtr->right_son = deleteNode(rootPtr->right_son,temp->data);
+        }
+    }
+
+}
+
 /*DRIVER FUNCTION TO CHECK THE PROGRAM*/
 int main()
 {
@@ -80,6 +129,8 @@ int main()
     root = addnew(root,14);
     root = addnew(root,27);
     root = addnew(root,64);
+
+    root = deleteNode(root,60);
 
     cout<<"\n All inserted :\n";
     printing(root);
