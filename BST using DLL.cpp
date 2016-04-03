@@ -2,86 +2,82 @@
 
 using namespace std;
 
+
+/*Structure of the nodes required for the tree*/
 struct node
 {
     int data;
     node* left_son;
     node* right_son;
+    int countr;
 
 };
 
+
+/*Helper Function to allocate space
+ and define initial values of the pointer*/
 node* getnew(int x)
 {
     node* temp = new node;
     temp->data=x;
     temp->left_son=NULL;
     temp->right_son=NULL;
+    temp->countr = 1;
     return temp;
 }
 
+/*function to find the exact place of the new data to be inserted
+and inserting it by creating a new node.
+This function uses recursion */
 node* addnew(node* rootPtr,int x)
 {
-
+        //If the root is empty
      if(rootPtr==NULL)
      {
-      //   cout<<"\n init :";
+
           node* temp =getnew(x);
             rootPtr = temp;
      }
-     else if(((rootPtr)->data)>(x))
+     else if(((rootPtr)->data)>(x))  //When the new data is less than the original one
      {
-        rootPtr->left_son=addnew(rootPtr->left_son,x);
+        rootPtr->left_son=addnew(rootPtr->left_son,x);  //setting the left child of the original root as the new root
      }
-     else if(((rootPtr)->data)<=(x))
+     else if(((rootPtr)->data)<(x))//When the new data is equal to or greater than the original one
+
      {
-        rootPtr->right_son = addnew(rootPtr->right_son,x);
+        rootPtr->right_son = addnew(rootPtr->right_son,x);//setting the left child of the original root as the ne
      }
-     return rootPtr;
+     else if((rootPtr->data)==(x))
+     {
+         rootPtr->countr++;
+     }
+     return rootPtr;  //Finally returning the root pointer
 }
+
+/*Function to print the BST in-order */
 void printing(node* rootPtr)
 {
 
-    //cout<<"\n Came here :";
-    if(rootPtr==NULL)
-    {
-        cout<<"\n Empty\n ";
+   if(rootPtr!=NULL){
 
-    }
-    else{
-            //cout<<"\n came here too:";
-    if((rootPtr->left_son==NULL)&&(rootPtr->right_son==NULL))
-        cout<<rootPtr->data<<" ";
-    if(rootPtr->left_son!=NULL)
-        {
-            //cout<<"\n cmae in:";
-            node* temp=rootPtr->left_son;
-            printing(temp);
-            cout<<rootPtr->data<<" ";
-        }
-    if(rootPtr->right_son!=NULL)
-        {
-            node* temp=rootPtr->right_son;
-            printing(temp);
-
-        }
+        printing(rootPtr->left_son);
+        cout<<rootPtr->data<<" "<<rootPtr->countr<<"\n";
+        printing(rootPtr->right_son);
 
     }
 
 }
+
+/*DRIVER FUNCTION TO CHECK THE PROGRAM*/
 int main()
 {
     node* root=NULL;
-    //printing(root);
     root = addnew(root,60);
-
-    //printing(root);
     root = addnew(root,25);
-
-   // printing(root);
-    root = addnew(root,13);
+    root = addnew(root,11);
     root = addnew(root,75);
     root = addnew(root,89);
-    root = addnew(root,13);
+    root = addnew(root,14);
     root = addnew(root,27);
     root = addnew(root,64);
 
